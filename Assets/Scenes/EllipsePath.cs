@@ -201,16 +201,19 @@ public class EllipsePath : MonoBehaviour
 
     public void setTarget(int index)
     {
-        speedUp = true;
-        pause = false;
-
         int curIndex = (count + itemIndex) % maxCount;
         float angle = angles[itemIndex % count] % -360f;
 
         targetAngle = -angle - 270f - 360f * 2;
-        realIndex = (index - 26 + maxCount) % maxCount;
+        if (count % 2 != 0) {
+            targetAngle = targetAngle - 360f / count / 2;       //额外多转间距夹角的一半时期到达屏幕中间
+        }
+        realIndex = (index - 1 - Mathf.CeilToInt(count/2f) - count*2 + maxCount) % maxCount;
         curAngle = 0;
         time = 0;
+
+        speedUp = true;
+        pause = false;
     }
 
     public void reStart()
